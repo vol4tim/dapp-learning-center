@@ -1,3 +1,0 @@
-export const FLASH_MESSAGE = 'APP_FLASH_MESSAGE'
-export const SET_DAO_ADDRESS = 'SET_DAO_ADDRESS'
-export const SET_BALANCE = 'SET_BALANCE'
