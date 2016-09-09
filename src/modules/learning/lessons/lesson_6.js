@@ -3,7 +3,8 @@ import { loadAbiByName, getContract, createModule, blockchain, tx, coinbase } fr
 import { getCore } from './helper'
 
 export default function(setProgress, params) {
-	var factory, core, builder, new_contract, market
+	var factory, core, builder, market
+	var new_contract = false
 	return loadAbiByName('Core').
 		then((abi)=>{
 			factory = getContract(abi, FACTORY);
@@ -11,19 +12,33 @@ export default function(setProgress, params) {
 		}).
 		then((contract)=>{
 			core = contract
+			var address = core.getModule('Market')
+			if (address!=0) {
+				new_contract = address
+				return false
+			}
 			return loadAbiByName('BuilderMarket')
 		}).
 		then((abi)=>{
+			if (new_contract!=false) {
+				return false
+			}
 			builder = getContract(abi, factory.getModule('Aira BuilderMarket'));
 			return createModule([], builder)
 		}).
 		then((address)=>{
 			setProgress(0, 2)
 			setProgress(1, 1)
+			if (new_contract!=false) {
+				return false
+			}
 			new_contract = address
 			return tx(core, 'setModule', ['Market', address, 'github://airalab/core/market/Market.sol', true])
 		}).
 		then((tx)=>{
+			if (new_contract!=false) {
+				return false
+			}
 			return blockchain.subscribeTx(tx)
 		}).
 		then(()=>{

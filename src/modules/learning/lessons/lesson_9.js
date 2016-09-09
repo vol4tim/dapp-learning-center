@@ -3,7 +3,8 @@ import { loadAbiByName, getContract, createModule, blockchain, tx } from '../../
 import { getCore } from './helper'
 
 export default function(setProgress, params) {
-	var factory, core, builder, new_contract
+	var factory, core, builder
+	var new_contract = false
 	return loadAbiByName('Core').
 		then((abi)=>{
 			factory = getContract(abi, FACTORY);
@@ -11,19 +12,33 @@ export default function(setProgress, params) {
 		}).
 		then((contract)=>{
 			core = contract
+			var address = core.getModule('Market rule constant')
+			if (address!=0) {
+				new_contract = address
+				return false
+			}
 			return loadAbiByName('BuilderMarketRuleConstant')
 		}).
 		then((abi)=>{
+			if (new_contract!=false) {
+				return false
+			}
 			builder = getContract(abi, factory.getModule('Aira BuilderMarketRuleConstant'));
 			return createModule([params[0]], builder)
 		}).
 		then((address)=>{
 			setProgress(0, 2)
 			setProgress(1, 1)
+			if (new_contract!=false) {
+				return false
+			}
 			new_contract = address
 			return tx(core, 'setModule', ['Market rule constant', address, 'github://airalab/core/market/MarketRuleConstant.sol', true])
 		}).
 		then((tx)=>{
+			if (new_contract!=false) {
+				return false
+			}
 			return blockchain.subscribeTx(tx)
 		}).
 		then(()=>{
@@ -40,7 +55,7 @@ export default function(setProgress, params) {
 		}).
 		then(()=>{
 			setProgress(2, 2)
-			return loadAbiByName('MarketRegulator')
+			return loadAbiByName('DAOMarketRegulator')
 		}).
 		then((abi)=>{
 			setProgress(3, 1)
@@ -52,7 +67,7 @@ export default function(setProgress, params) {
 		}).
 		then(()=>{
 			setProgress(3, 2)
-			return loadAbiByName('MarketRegulator')
+			return loadAbiByName('DAOMarketRegulator')
 		}).
 		then((abi)=>{
 			setProgress(4, 1)

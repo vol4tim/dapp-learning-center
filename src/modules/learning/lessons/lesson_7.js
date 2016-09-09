@@ -3,7 +3,9 @@ import { loadAbiByName, getContract, createModule, blockchain, tx } from '../../
 import { getCore } from './helper'
 
 export default function(setProgress, params) {
-	var factory, core, builder, new_contract, market, coaching_addr
+	var factory, core, builder, market
+	var new_contract = false
+	var coaching_addr = false
 	return loadAbiByName('Core').
 		then((abi)=>{
 			factory = getContract(abi, FACTORY);
@@ -11,19 +13,33 @@ export default function(setProgress, params) {
 		}).
 		then((contract)=>{
 			core = contract
+			var address = core.getModule('Market regulator')
+			if (address!=0) {
+				new_contract = address
+				return false
+			}
 			return loadAbiByName('BuilderDAOMarketRegulator')
 		}).
 		then((abi)=>{
+			if (new_contract!=false) {
+				return false
+			}
 			builder = getContract(abi, factory.getModule('Aira BuilderDAOMarketRegulator'));
 			return createModule([core.getModule(params[0]), core.address, core.getModule('Market'), core.getModule(params[1])], builder)
 		}).
 		then((address)=>{
 			setProgress(0, 2)
 			setProgress(1, 1)
+			if (new_contract!=false) {
+				return false
+			}
 			new_contract = address
 			return tx(core, 'setModule', ['Market regulator', address, 'github://airalab/core/market/DAOMarketRegulator.sol', true])
 		}).
 		then((tx)=>{
+			if (new_contract!=false) {
+				return false
+			}
 			return blockchain.subscribeTx(tx)
 		}).
 		then(()=>{
@@ -48,25 +64,39 @@ export default function(setProgress, params) {
 		}).
 		then(()=>{
 			setProgress(3, 2)
+			var address = core.getModule('Сoaching token')
+			if (address!=0) {
+				coaching_addr = address
+				return false
+			}
 			return loadAbiByName('BuilderTokenEmission')
 		}).
 		then((abi)=>{
 			setProgress(4, 1)
+			if (coaching_addr!=false) {
+				return false
+			}
 			builder = getContract(abi, factory.getModule('Aira BuilderTokenEmission'));
 			return createModule([params[2], params[3], params[4], params[5]], builder)
 		}).
 		then((address)=>{
 			setProgress(4, 2)
 			setProgress(5, 1)
+			if (coaching_addr!=false) {
+				return false
+			}
 			coaching_addr = address
 			return tx(core, 'setModule', ['Сoaching token', address, 'github://airalab/core/token/TokenEmission.sol', true])
 		}).
 		then((tx)=>{
+			if (coaching_addr!=false) {
+				return false
+			}
 			return blockchain.subscribeTx(tx)
 		}).
 		then(()=>{
 			setProgress(5, 2)
-			return loadAbiByName('MarketRegulator')
+			return loadAbiByName('DAOMarketRegulator')
 		}).
 		then((abi)=>{
 			setProgress(6, 1)

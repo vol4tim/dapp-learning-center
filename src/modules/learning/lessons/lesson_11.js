@@ -3,7 +3,9 @@ import { loadAbiByName, getContract, createModule, blockchain, tx, coinbase } fr
 import { getCore } from './helper'
 
 export default function(setProgress, params) {
-	var factory, core, builder, bod_address, bod, voting_address, voting_token, voting
+	var factory, core, builder, bod, voting_token, voting
+	var bod_address = false
+	var voting_address = false
 	return loadAbiByName('Core').
 		then((abi)=>{
 			factory = getContract(abi, FACTORY);
@@ -11,37 +13,65 @@ export default function(setProgress, params) {
 		}).
 		then((contract)=>{
 			core = contract
+			var address = core.getModule('Board of Directors')
+			if (address!=0) {
+				bod_address = address
+				return false
+			}
 			return loadAbiByName('BuilderBoardOfDirectors')
 		}).
 		then((abi)=>{
+			if (bod_address!=false) {
+				return false
+			}
 			builder = getContract(abi, factory.getModule('Aira BuilderBoardOfDirectors'));
 			return createModule([core.address, core.getModule(params[0]), core.getModule(params[1])], builder)
 		}).
 		then((address)=>{
 			setProgress(0, 2)
 			setProgress(1, 1)
+			if (bod_address!=false) {
+				return false
+			}
 			bod_address = address
 			return tx(core, 'setModule', ['Board of Directors', address, 'github://airalab/core/cashflow/BoardOfDirectors.sol', true])
 		}).
 		then((tx)=>{
+			if (bod_address!=false) {
+				return false
+			}
 			return blockchain.subscribeTx(tx)
 		}).
 		then(()=>{
 			setProgress(1, 2)
+			var address = core.getModule('Voting token')
+			if (address!=0) {
+				voting_address = address
+				return false
+			}
 			return loadAbiByName('BuilderTokenEmission')
 		}).
 		then((abi)=>{
 			setProgress(2, 1)
+			if (voting_address!=false) {
+				return false
+			}
 			builder = getContract(abi, core.getModule('Token emission builder'));
 			return createModule([params[2], params[3], params[4], params[5]], builder)
 		}).
 		then((address)=>{
 			setProgress(2, 2)
 			setProgress(3, 1)
+			if (voting_address!=false) {
+				return false
+			}
 			voting_address = address
 			return tx(core, 'setModule', ['Voting token', address, 'github://airalab/core/token/TokenEmission.sol', true])
 		}).
 		then((tx)=>{
+			if (voting_address!=false) {
+				return false
+			}
 			return blockchain.subscribeTx(tx)
 		}).
 		then(()=>{

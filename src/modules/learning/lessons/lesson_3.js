@@ -3,7 +3,8 @@ import { loadAbiByName, getContract, createModule, tx, blockchain, transfer, coi
 import { getCore } from './helper'
 
 export default function(setProgress, params) {
-	var factory, core, builder, new_tokken
+	var factory, core, builder
+	var new_tokken = false
 	return loadAbiByName('Core').
 		then((abi)=>{
 			factory = getContract(abi, FACTORY);
@@ -11,19 +12,33 @@ export default function(setProgress, params) {
 		}).
 		then((contract)=>{
 			core = contract
+			var address = core.getModule(params[0])
+			if (address!=0) {
+				new_tokken = address
+				return false
+			}
 			return loadAbiByName('BuilderTokenEther')
 		}).
 		then((abi)=>{
+			if (new_tokken!=false) {
+				return false
+			}
 			builder = getContract(abi, factory.getModule('Aira BuilderTokenEther'));
 			return createModule(params, builder)
 		}).
 		then((address)=>{
 			setProgress(0, 2)
 			setProgress(1, 1)
+			if (new_tokken!=false) {
+				return false
+			}
 			new_tokken = address
 			return tx(core, 'setModule', [params[0], address, 'github://airalab/core/token/TokenEther.sol', true])
 		}).
 		then((tx)=>{
+			if (new_tokken!=false) {
+				return false
+			}
 			return blockchain.subscribeTx(tx)
 		}).
 		then(()=>{

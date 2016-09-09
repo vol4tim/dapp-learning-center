@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import { LOAD_IS_EXECUTE, SET_RESULT_FORM, SET_RESULT_FORM_CHECK, SET_PROGRESS_FORM } from './actionTypes'
-import initialState from './initialState'
+import initialState from './initialState/index'
 
 export default function learning(state = initialState, action) {
 	switch (action.type) {

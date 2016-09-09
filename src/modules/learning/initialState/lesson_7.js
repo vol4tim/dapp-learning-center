@@ -72,6 +72,10 @@ export default {
 		template: 'Адрес регулятора <code>%address%</code>.'
 	},
 	formCheck: {
+		_dao_address: {
+			label: 'Адрес вашего DAO',
+			placeholder: '0x1111111111111111111111111111'
+		}
 	},
 	formCheckResult: {
 		status: 0
