@@ -1,6 +1,10 @@
 import {startSubmit, stopSubmit, reset} from 'redux-form';
 import _ from 'lodash'
-import { getCoreAddress, getAirBalance, lessons, lessonsCheck, isPassed } from '../../utils/learning'
+//import { getCoreAddress, getAirBalance, lessons, lessonsCheck, isPassed } from '../../utils/learning'
+import { getCoreAddress, getAirBalance } from '../../utils/helper'
+import lessons from './lessons'
+import lessonsCheck from './checkers'
+import { isPassed } from './checkers/helper'
 import { LOAD_IS_EXECUTE, SET_RESULT_FORM, SET_RESULT_FORM_CHECK, SET_PROGRESS_FORM } from './actionTypes'
 import { setDaoAddress, setBalance } from '../app/actions'
 
