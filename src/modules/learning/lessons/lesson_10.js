@@ -7,11 +7,10 @@ export default function (setProgress) {
   var core
   var builder
   var marketRegulator
-  var assset1Addr
-  var assset2Addr
-  var service1Addr
-  var service2Addr
-  var isModule = false
+  var assset1Addr = false
+  var assset2Addr = false
+  var service1Addr = false
+  var service2Addr = false
   return loadAbiByName('Core')
     .then((abi) => {
       factory = getContract(abi, FACTORY);
@@ -21,13 +20,12 @@ export default function (setProgress) {
       core = contract
       const address = core.getModule('Token emission builder')
       if (address !== '0x0000000000000000000000000000000000000000') {
-        isModule = true
         return false
       }
       return tx(core, 'setModule', ['Token emission builder', factory.getModule('Aira BuilderTokenEmission'), 'github://airalab/core/builder/BuilderTokenEmission.sol', true])
     })
     .then((txId) => {
-      if (isModule !== false) {
+      if (txId === false) {
         return false
       }
       return blockchain.subscribeTx(txId)
@@ -59,7 +57,7 @@ export default function (setProgress) {
       return tx(core, 'setModule', ['Assset 1 token', address, 'github://airalab/core/token/TokenEmission.sol', true])
     })
     .then((txId) => {
-      if (assset1Addr !== false) {
+      if (txId === false) {
         return false
       }
       return blockchain.subscribeTx(txId)
@@ -84,7 +82,7 @@ export default function (setProgress) {
       return tx(core, 'setModule', ['Assset 2 token', address, 'github://airalab/core/token/TokenEmission.sol', true])
     })
     .then((txId) => {
-      if (assset2Addr !== false) {
+      if (txId === false) {
         return false
       }
       return blockchain.subscribeTx(txId)
@@ -109,7 +107,7 @@ export default function (setProgress) {
       return tx(core, 'setModule', ['Service 1 token', address, 'github://airalab/core/token/TokenEmission.sol', true])
     })
     .then((txId) => {
-      if (service1Addr !== false) {
+      if (txId === false) {
         return false
       }
       return blockchain.subscribeTx(txId)
@@ -134,7 +132,7 @@ export default function (setProgress) {
       return tx(core, 'setModule', ['Service 2 token', address, 'github://airalab/core/token/TokenEmission.sol', true])
     })
     .then((txId) => {
-      if (service2Addr !== false) {
+      if (txId === false) {
         return false
       }
       return blockchain.subscribeTx(txId)

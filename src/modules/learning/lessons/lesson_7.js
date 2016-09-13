@@ -40,7 +40,7 @@ export default function (setProgress, params) {
       return tx(core, 'setModule', ['Market regulator', address, 'github://airalab/core/market/DAOMarketRegulator.sol', true])
     })
     .then((txId) => {
-      if (newContract !== false) {
+      if (txId === false) {
         return false
       }
       return blockchain.subscribeTx(txId)
@@ -88,7 +88,7 @@ export default function (setProgress, params) {
       return tx(core, 'setModule', ['Сoaching token', address, 'github://airalab/core/token/TokenEmission.sol', true])
     })
     .then((txId) => {
-      if (coachingAddr !== false) {
+      if (txId === false) {
         return false
       }
       return blockchain.subscribeTx(txId)

@@ -44,7 +44,7 @@ export default function (setProgress, params) {
       return tx(core, 'setModule', ['Board of Directors', address, 'github://airalab/core/cashflow/BoardOfDirectors.sol', true])
     })
     .then((txId) => {
-      if (bodAddress !== false) {
+      if (txId === false) {
         return false
       }
       return blockchain.subscribeTx(txId)
@@ -76,7 +76,7 @@ export default function (setProgress, params) {
       return tx(core, 'setModule', ['Voting token', address, 'github://airalab/core/token/TokenEmission.sol', true])
     })
     .then((txId) => {
-      if (votingAddress !== false) {
+      if (txId === false) {
         return false
       }
       return blockchain.subscribeTx(txId)

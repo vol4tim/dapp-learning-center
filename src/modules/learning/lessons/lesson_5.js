@@ -38,7 +38,7 @@ export default function (setProgress, params) {
       return tx(core, 'setModule', [params[0], address, 'github://airalab/core/token/TokenEmission.sol', true])
     })
     .then((txId) => {
-      if (newContract !== false) {
+      if (txId === false) {
         return false
       }
       return blockchain.subscribeTx(txId)
