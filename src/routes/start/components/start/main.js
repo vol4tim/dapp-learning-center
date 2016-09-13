@@ -1,15 +1,15 @@
 import React, { PropTypes } from 'react'
 import Item from './item'
 
-const Main = function(props) {
-  return <div>
+const Main = (props) => {
+  const { items } = props
+
+  return (<div>
     <h1>Уроки</h1>
     <div className="list-group">
-      {props.items.map(function(item, index) {
-        return <Item key={index} {...item} />;
-      })}
+      {items.map((item, index) => <Item key={index} {...item} />)}
     </div>
-  </div>
+  </div>)
 }
 
 Main.propTypes = {

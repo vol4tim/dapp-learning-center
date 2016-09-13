@@ -22,6 +22,7 @@ const config = {
         {
           test: /\.js$/,
           loaders: ['eslint'],
+          exclude: /node_modules/,
           include: [
             path.resolve(__dirname, 'src')
           ]

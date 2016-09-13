@@ -1,11 +1,11 @@
 import React, { PropTypes } from 'react'
 
-const Item = function(props) {
+const Item = (props) => {
   const { name, address } = props
 
-  return <div className="list-group-item">
+  return (<div className="list-group-item">
     {name}<br /><small>{address}</small>
-  </div>
+  </div>)
 }
 
 Item.propTypes = {

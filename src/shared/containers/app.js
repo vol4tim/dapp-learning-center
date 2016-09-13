@@ -20,21 +20,29 @@ class App extends Component {
     this.props.loadIsExecute()
   }
   render() {
-    return <div>
-      <Header title={this.props.title} dao_address={this.props.dao_address} balance={this.props.balance} />
+    var content
+    if (getWeb3()) {
+      if (isAccounts()) {
+        content = this.props.children
+      } else {
+        content = <p>нет аккаунтов</p>
+      }
+    } else {
+      content = <p>нужен mist</p>
+    }
+
+    return (<div>
+      <Header
+        title={this.props.title}
+        dao_address={this.props.dao_address}
+        balance={this.props.balance}
+      />
       <div className="container">
-        {getWeb3() ?
-          isAccounts() ?
-            this.props.children
-            :
-            <p>нет аккаунтов</p>
-          :
-          <p>нужен mist</p>
-        }
+        {content}
       </div>
       <Footer />
-      <Notification message={this.props.flash_message} onClose={()=>this.props.flashMessage('')} />
-    </div>
+      <Notification message={this.props.flash_message} onClose={() => this.props.flashMessage('')} />
+    </div>)
   }
 }
 
@@ -47,7 +55,9 @@ function mapStateToProps(state) {
   }
 }
 function mapDispatchToProps(dispatch) {
-  const actions = bindActionCreators({flashMessage, getDaoAddress, updateAirBalance, loadIsExecute, loadDao}, dispatch)
+  const actions = bindActionCreators({
+    flashMessage, getDaoAddress, updateAirBalance, loadIsExecute, loadDao
+  }, dispatch)
   return {
     flashMessage: actions.flashMessage,
     getDaoAddress: actions.getDaoAddress,

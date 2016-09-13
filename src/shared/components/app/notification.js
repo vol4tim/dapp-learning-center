@@ -11,7 +11,7 @@ export default class Notification extends Component {
 
   close(message) {
     const { onClose } = this.props
-    if (message!='') {
+    if (message !== '') {
       setTimeout(onClose, 5000)
     }
   }
@@ -19,8 +19,8 @@ export default class Notification extends Component {
   render() {
     return (
       <div>
-        {this.props.message!='' &&
-          <div style={{top: 0, right: 0, position: 'fixed', margin: 5, zIndex: 1050}}>
+        {this.props.message !== '' &&
+          <div style={{ top: 0, right: 0, position: 'fixed', margin: 5, zIndex: 1050 }}>
             <div className="alert alert-info">
               {this.props.message}
             </div>
