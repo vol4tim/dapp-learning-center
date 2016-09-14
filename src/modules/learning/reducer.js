@@ -3,7 +3,7 @@ import { LOAD_IS_EXECUTE, SET_RESULT_FORM, SET_RESULT_FORM_CHECK, SET_PROGRESS_F
 import initialState from './initialState/index'
 
 function replaceArray(string, find, replace) {
-  var stringNew = string
+  let stringNew = string
   for (let i = 0; i < find.length; i += 1) {
     stringNew = string.replace(new RegExp(find[i], 'g'), replace[i]);
   }

@@ -11,8 +11,6 @@
     "no-console": 0,
     "semi": 0,
     "comma-dangle": 0,
-    "no-var": 0,
-    "new-cap": 0,
     "prefer-template": 0
   },
   "parserOptions": {

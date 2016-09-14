@@ -25,8 +25,8 @@ function execute(lesson, args) {
 }
 
 export function run(lessonName, params) {
-  var learningCenter
-  var lesson
+  let learningCenter
+  let lesson
   return loadAbiByName('Core')
     .then((abi) => {
       learningCenter = getContract(abi, L_CENTER);
@@ -40,15 +40,15 @@ export function run(lessonName, params) {
 }
 
 export function isPassed(number) {
-  var learningCenter
-  var lessonName = 'Lesson_' + number
+  let learningCenter
+  const lessonName = 'Lesson_' + number
   return loadAbiByName('Core')
     .then((abi) => {
       learningCenter = getContract(abi, L_CENTER);
       return getAbi(lessonName)
     })
     .then((abi) => {
-      var lesson = getContract(abi, learningCenter.getModule(lessonName));
+      const lesson = getContract(abi, learningCenter.getModule(lessonName));
       return lesson.isPassed(coinbase())
     })
 }

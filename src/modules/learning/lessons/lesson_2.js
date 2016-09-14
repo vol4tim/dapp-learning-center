@@ -3,9 +3,9 @@ import { loadAbiByName, getContract, blockchain, tx } from '../../../utils/web3'
 import { getCore } from './helper'
 
 export default function (setProgress, params) {
-  var core
-  var shares
-  var learningCenter
+  let core
+  let shares
+  let learningCenter
   return getCore()
     .then((contract) => {
       core = contract

@@ -2,8 +2,8 @@ import { FACTORY } from '../../../config/config'
 import { loadAbiByName, getContract } from '../../../utils/web3'
 
 export function getCore() {
-  var factory
-  var coreAbi
+  let factory
+  let coreAbi
   return loadAbiByName('Core')
     .then((abi) => {
       coreAbi = abi

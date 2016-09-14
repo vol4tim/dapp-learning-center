@@ -2,14 +2,14 @@ import { FACTORY, L_CENTER } from '../config/config'
 import { loadAbiByName, getContract } from './web3'
 
 export function getCoreAddress() {
-  var factory
+  let factory
   return loadAbiByName('Core')
     .then((abi) => {
       factory = getContract(abi, FACTORY);
       return loadAbiByName('BuilderDAO')
     })
     .then((abi) => {
-      var builder = getContract(abi, factory.getModule('Aira BuilderDAO'));
+      const builder = getContract(abi, factory.getModule('Aira BuilderDAO'));
       return builder.getLastContract();
     })
 }

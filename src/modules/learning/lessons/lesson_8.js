@@ -1,3 +1,5 @@
+/* eslint new-cap: 0 */
+
 import { Promise } from 'es6-promise'
 import { loadAbiByName, getContract, blockchain, tx } from '../../../utils/web3'
 import { getCore } from './helper'
@@ -13,8 +15,8 @@ export default function (setProgress, params) {
       })
     })
   )
-  var core
-  var newContract = false
+  let core
+  let newContract = false
   return getCore()
     .then((contract) => {
       core = contract

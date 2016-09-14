@@ -1,5 +1,5 @@
-var Promise = require('es6-promise').Promise;
-var _ = require('lodash')
+import { Promise } from 'es6-promise'
+import _ from 'lodash'
 
 export default class Blockchain {
   subscribes = []
@@ -13,7 +13,7 @@ export default class Blockchain {
   }
 
   observeLatestBlocks() {
-    var self = this
+    const self = this
     this.web3.eth.filter('latest').watch((e, hash) => {
       if (!e) {
         const blockInfo = self.web3.eth.getBlock(hash);
@@ -32,7 +32,7 @@ export default class Blockchain {
     });
   }
   observeBlock() {
-    var self = this
+    const self = this
     return new Promise((resolve) => {
       self.setSubscribe(() => {
         resolve()
@@ -43,7 +43,7 @@ export default class Blockchain {
     this.subscribes.push(cb)
   }
   subscribeTx(tx) {
-    var self = this
+    const self = this
     return new Promise((resolve) => {
       // console.log(self);
       // setTimeout(()=>{

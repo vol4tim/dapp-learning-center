@@ -3,12 +3,12 @@ import { loadAbiByName, getContract, createModule, blockchain, tx } from '../../
 import { getCore } from './helper'
 
 export default function (setProgress, params) {
-  var factory
-  var core
-  var builder
-  var market
-  var newContract = false
-  var coachingAddr = false
+  let factory
+  let core
+  let builder
+  let market
+  let newContract = false
+  let coachingAddr = false
   return loadAbiByName('Core')
     .then((abi) => {
       factory = getContract(abi, FACTORY);

@@ -2,7 +2,7 @@ import { FACTORY } from '../../../config/config'
 import { loadAbiByName, getContract, createModule } from '../../../utils/web3'
 
 export default function (setProgress, params) {
-  var factory
+  let factory
   return loadAbiByName('Core')
     .then((abi) => {
       factory = getContract(abi, FACTORY);

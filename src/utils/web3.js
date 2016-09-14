@@ -1,3 +1,5 @@
+/* eslint new-cap: 0 */
+
 import { Promise } from 'es6-promise'
 import _ from 'lodash'
 import axios from 'axios'

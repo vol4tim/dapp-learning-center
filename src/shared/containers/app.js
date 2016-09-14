@@ -20,7 +20,7 @@ class App extends Component {
     this.props.loadIsExecute()
   }
   render() {
-    var content
+    let content
     if (getWeb3()) {
       if (isAccounts()) {
         content = this.props.children
