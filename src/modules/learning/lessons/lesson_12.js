@@ -32,17 +32,17 @@ export default function (setProgress, params) {
     })
     .then((address) => {
       setProgress(0, 2)
-      setProgress(1, 1)
       newContract = address
       return loadAbiByName('TokenEmission')
     })
     .then((abi) => {
-      setProgress(2, 1)
+      setProgress(1, 1)
       return tx(getContract(abi, core.getModule(params[1])), 'transfer', [newContract, params[3]])
     })
     .then(txId => blockchain.subscribeTx(txId))
     .then(() => loadAbiByName('TokenEther'))
     .then((abi) => {
+      setProgress(1, 2)
       setProgress(2, 1)
       const etherCredits = getContract(abi, core.getModule(params[0]));
       return tx(etherCredits, 'approve', [newContract, params[3]])
@@ -50,13 +50,14 @@ export default function (setProgress, params) {
     .then(txId => blockchain.subscribeTx(txId))
     .then(() => loadAbiByName('CrowdSale'))
     .then((abi) => {
-      setProgress(2, 1)
+      setProgress(2, 2)
+      setProgress(3, 1)
       const crowdSale = getContract(abi, newContract);
       return tx(crowdSale, 'deal', [])
     })
     .then(txId => blockchain.subscribeTx(txId))
     .then(() => {
-      setProgress(4, 2)
+      setProgress(3, 2)
       return {
         address: newContract
       }
