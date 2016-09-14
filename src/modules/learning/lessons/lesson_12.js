@@ -22,7 +22,7 @@ export default function (setProgress, params) {
         coinbase(),
         core.getModule(params[0]),
         core.getModule(params[1]),
-        1467972466,
+        Math.floor(Date.now() / 1000),
         3600,
         params[2],
         params[2],

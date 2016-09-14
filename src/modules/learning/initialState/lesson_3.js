@@ -5,7 +5,7 @@ export default {
   form: {
     _credits_name: {
       label: 'Название кредитов',
-      placeholder: 'Mars colony credits'
+      placeholder: 'Ether funds'
     },
     _credits_symbol: {
       label: 'Символ для кредитов, обычно 1 - 3 символа',
@@ -38,7 +38,7 @@ export default {
     },
     _credits_name: {
       label: 'Название кредитов',
-      placeholder: 'Mars colony credits'
+      placeholder: 'Ether funds'
     }
   },
   formCheckResult: {

@@ -5,7 +5,7 @@ export default {
   form: {
     _credits_name: {
       label: 'Название токена кредитов',
-      placeholder: 'Mars colony credits'
+      placeholder: 'Ether funds'
     },
     _shares_name: {
       label: 'Название токена акций',
