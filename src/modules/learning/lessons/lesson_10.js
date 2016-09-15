@@ -35,7 +35,6 @@ export default function (setProgress) {
       const address = core.getModule('Assset 1 token')
       if (address !== '0x0000000000000000000000000000000000000000') {
         assset1Addr = address
-        return false
       }
       return loadAbiByName('BuilderTokenEmission')
     })
