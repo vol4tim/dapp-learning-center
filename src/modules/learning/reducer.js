@@ -5,7 +5,7 @@ import initialState from './initialState/index'
 function replaceArray(string, find, replace) {
   let stringNew = string
   for (let i = 0; i < find.length; i += 1) {
-    stringNew = string.replace(new RegExp(find[i], 'g'), replace[i]);
+    stringNew = stringNew.replace(new RegExp(find[i], 'g'), replace[i]);
   }
   return stringNew;
 }
