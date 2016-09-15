@@ -1,5 +1,5 @@
 import { FACTORY, L_CENTER } from '../config/config'
-import { loadAbiByName, getContract } from './web3'
+import { coinbase, loadAbiByName, getContract } from './web3'
 
 export function getCoreAddress() {
   let factory
@@ -10,7 +10,11 @@ export function getCoreAddress() {
     })
     .then((abi) => {
       const builder = getContract(abi, factory.getModule('Aira BuilderDAO'));
-      return builder.getLastContract();
+      const address = builder.getLastContract({ from: coinbase() });
+      if (address !== '0x0000000000000000000000000000000000000000' && address !== '0x') {
+        return address
+      }
+      return ''
     })
 }
 
@@ -20,6 +24,6 @@ export function getAirBalance() {
     .then((abi) => {
       const learningCenter = getContract(abi, L_CENTER);
       const tokenair = getContract(tokenairAbi, learningCenter.getModule('Air token'));
-      return tokenair.getBalance()
+      return tokenair.getBalance({ from: coinbase() })
     })
 }

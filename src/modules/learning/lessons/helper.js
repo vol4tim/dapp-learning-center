@@ -1,5 +1,5 @@
 import { FACTORY } from '../../../config/config'
-import { loadAbiByName, getContract } from '../../../utils/web3'
+import { coinbase, loadAbiByName, getContract } from '../../../utils/web3'
 
 export function getCore() {
   let factory
@@ -12,6 +12,10 @@ export function getCore() {
     })
     .then((abi) => {
       const builder = getContract(abi, factory.getModule('Aira BuilderDAO'));
-      return getContract(coreAbi, builder.getLastContract());
+      const address = builder.getLastContract({ from: coinbase() });
+      if (address !== '0x0000000000000000000000000000000000000000' && address !== '0x') {
+        return getContract(coreAbi, address);
+      }
+      return false
     })
 }
