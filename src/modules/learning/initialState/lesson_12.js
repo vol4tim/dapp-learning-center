@@ -26,11 +26,11 @@ export default {
       status: 0
     },
     {
-      name: 'Переводим на Crowdsale 5 токенов DAO credit для продажи',
+      name: 'Переводим на Crowdsale токены DAO credit для продажи',
       status: 0
     },
     {
-      name: 'Апрувим 5 токенов Ether funds для Crowdsale',
+      name: 'Апрувим токены Ether funds для Crowdsale',
       status: 0
     },
     {
